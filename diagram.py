@@ -19,9 +19,13 @@
 
 bl_info = {
     "name": "Diagram",
-    "description": "Generates animated diagram from data in file.",
+    "description": "Generates animated diagram from data table in file.",
     "author": "Philip Eriksson",
+    "version": (0, 1, 20),
     "blender": (2, 76, 0),
+    "warning": "This add-on is in alpha development",
+    "location": "File > Import > Table data (.csv)",
+    "tracker_url": "https://github.com/Lominean/Blender-Diagram/labels/bug",
     "category": "Import-Export",
 }
 
