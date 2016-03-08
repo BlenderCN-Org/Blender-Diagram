@@ -21,7 +21,7 @@ bl_info = {
     "name": "Diagram",
     "description": "Generates animated diagram from data table in file.",
     "author": "Philip Eriksson",
-    "version": (0, 1, 20),
+    "version": (0, 1, 22),
     "blender": (2, 76, 0),
     "warning": "This add-on is in alpha development",
     "location": "File > Import > Table data (.csv)",
@@ -29,10 +29,13 @@ bl_info = {
     "category": "Import-Export",
 }
 
+
+import csv
 import bpy
 from bpy_extras.io_utils import ImportHelper
 from bpy.props import StringProperty, BoolProperty, EnumProperty
 from bpy.types import Operator
+
 
 class generate_graph(bpy.types.Operator):
     bl_idname = "import.diagram"
@@ -54,11 +57,19 @@ class generate_graph(bpy.types.Operator):
         return context.scene != None
 
     def execute(self, context):
+        parse_csv(self.filepath)
         return {'FINISHED'}
 
     def invoke(self, context, event):
         context.window_manager.fileselect_add(self)
         return {'RUNNING_MODAL'}
+
+
+def parse_csv(fp):
+    with open(fp, newline='') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+        for row in spamreader:
+            print(', '.join(row))
 
 
 def menu_import(self, context):
