@@ -5,6 +5,8 @@ Diagram (Blender-Diagram on GitHub) is a [Blender](https://www.blender.org/) add
 This add-on lets you import Comma Separated Values (.csv) into Blender. First, go to the File -> Import menu and click Table data. Browse to and choose the file containing the data. Now, select the options for how you want the data to appear.
 
 ## Appropriate data
+| Col 1 | Col 2 | Col 3 | Col 4 | Col 5 |
+| --- | --- | --- | --- | --- |
 | Name of bar 1 | Value key frame 1 | Value key frame 2 | ... | Value key frame *n* |
 | Name of bar 2 | Value key frame 1 | Value key frame 2 | ... | Value key frame *n* |
 | ... | ... | ... | ... | ... |
