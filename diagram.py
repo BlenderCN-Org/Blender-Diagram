@@ -21,16 +21,16 @@ bl_info = {
     "name": "Diagram",
     "description": "Generates animated diagram from data table in file.",
     "author": "Philip Eriksson",
-    "version": (0, 1, 22),
-    "blender": (2, 76, 0),
+    "version": (0, 1, 32),
+    "blender": (2, 78, 0),
     "warning": "This add-on is in alpha development",
     "location": "File > Import > Table data (.csv)",
-    "tracker_url": "https://github.com/Lominean/Blender-Diagram/labels/bug",
+    "tracker_url": "https://github.com/Lominean/Blender-Diagram/issues",
     "category": "Import-Export",
 }
 
 
-import csv
+import os
 import bpy
 from bpy_extras.io_utils import ImportHelper
 from bpy.props import StringProperty, BoolProperty, EnumProperty
@@ -39,24 +39,34 @@ from bpy.types import Operator
 
 class generate_graph(bpy.types.Operator):
     bl_idname = "import.diagram"
-    bl_label = "Import CSV"
+    bl_label = "Generate graph"
     bl_options = {'UNDO'}
     bl_description = "Add animated graph"
     
     filename_ext = ".csv"
     filter_glob = StringProperty(default="*.csv", options={'HIDDEN'})
     filepath = StringProperty(subtype='FILE_PATH')
+#    radius = FloatProperty(default=1.00, min=0.00, max=100.00, description="radius for first turn")
 
     def draw(self, context):
         layout = self.layout
+        
+        obj = context.object
+        row = layout.row()
+        row.prop(obj, "hide_select")
+        row.prop(obj, "hide_render")
+        row.prop(self, 'radius', text = "Radius")
+        
         box = layout.box()
-        box.operator("object.select_all")
+        box.label("Settings")
+        box.operator("object.select_all").action = 'TOGGLE'
 
     @classmethod
     def poll(cls, context):
         return context.scene != None
 
     def execute(self, context):
+        import csv
         parse_csv(self.filepath)
         return {'FINISHED'}
 
@@ -73,7 +83,6 @@ def parse_csv(fp):
 
 
 def menu_import(self, context):
-    import os
     default_path = os.path.splitext(bpy.data.filepath)[0] + ".csv"
     self.layout.operator(generate_graph.bl_idname, text="Table data (.csv)").filepath = default_path
 
