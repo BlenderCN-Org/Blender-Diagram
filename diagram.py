@@ -21,7 +21,7 @@ bl_info = {
     "name": "Diagram",
     "description": "Generates animated diagram from data table in file.",
     "author": "Philip Eriksson",
-    "version": (0, 1, 32),
+    "version": (0, 1, 50),
     "blender": (2, 78, 0),
     "warning": "This add-on is in alpha development",
     "location": "File > Import > Table data (.csv)",
@@ -53,9 +53,9 @@ class generate_graph(bpy.types.Operator):
         
         obj = context.object
         row = layout.row()
-        row.prop(obj, "hide_select")
-        row.prop(obj, "hide_render")
-        row.prop(self, 'radius', text = "Radius")
+#        row.prop(obj, "hide_select")
+#        row.prop(obj, "hide_render")
+#        row.prop(self, 'radius', text = "Radius")
         
         box = layout.box()
         box.label("Settings")
@@ -66,8 +66,7 @@ class generate_graph(bpy.types.Operator):
         return context.scene != None
 
     def execute(self, context):
-        import csv
-        parse_csv(self.filepath)
+        do_bar_graph(self.filepath)
         return {'FINISHED'}
 
     def invoke(self, context, event):
@@ -75,18 +74,24 @@ class generate_graph(bpy.types.Operator):
         return {'RUNNING_MODAL'}
 
 
-def parse_csv(fp):
+def do_bar_graph(fp):
+    import csv
     with open(fp, newline='') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-        for row in spamreader:
+        csvreader = csv.reader(csvfile, delimiter=',', quotechar='|')
+        xpos=0.0
+        for row in csvreader:
             print(', '.join(row))
+            bpy.ops.mesh.primitive_cube_add(location=(xpos, 0.0, 0.0))
+            xpos = xpos+2.5
+            bpy.ops.transform.resize(value=(1.0, 1.0, float(row[1])/1000000))
+            bpy.context.object.data.name = row[0] + " Mesh"
 
 
 def menu_import(self, context):
     default_path = os.path.splitext(bpy.data.filepath)[0] + ".csv"
     self.layout.operator(generate_graph.bl_idname, text="Table data (.csv)").filepath = default_path
 
-        
+
 def register():
     bpy.utils.register_module(__name__)
     bpy.types.INFO_MT_file_import.append(menu_import)
