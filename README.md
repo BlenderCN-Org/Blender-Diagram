@@ -2,7 +2,7 @@
 Diagram (Blender-Diagram on GitHub) is a [Blender](http://www.blender.org/) add-on that generates animated diagrams, or graphs, from data tables.
 
 # Usage
-This add-on lets you import [Comma-separated Values](https://en.wikipedia.org/wiki/Comma-separated_values) files (.csv) into Blender. First, go to the `File` -> `Import` menu and click `Table data`. Browse to and choose the file containing the data. Now, select the options for how you want the data to be represented and click Generate.
+This add-on lets you import [comma-separated values](https://en.wikipedia.org/wiki/Comma-separated_values) files (.csv) into Blender. First, go to the `File` -> `Import` menu and click `Table data`. Browse to and choose the file containing the data. Now, select the options for how you want the data to be represented and click `Generate`.
 
 ## Example data
 
